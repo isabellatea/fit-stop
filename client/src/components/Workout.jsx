@@ -8,7 +8,7 @@ class Workout extends React.Component {
     }
     this.highlightActiveTitle.bind(this);
   }
-  
+
   componentDidMount() {
   	this.highlightActiveTitle();
   }
@@ -32,6 +32,7 @@ class Workout extends React.Component {
 	  <span className={'workoutTitle ' + (this.state.workoutActive ? 'activeTitle' : null)}>Workout</span>
 	  <span className={'cooldownTitle ' + (this.state.cooldownActive ? 'activeTitle' : null)}>Cooldown</span>
 	  <Timer timer= {this.props.timer} />
+
 
 	  <Exercise exercise= {this.props.exercise} />
 

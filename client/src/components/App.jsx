@@ -7,13 +7,13 @@ class App extends React.Component {
       currentExercise: 0,
       workoutDate: null,
       workoutHistory: [],
-      username: 'harshsikka', //hardcoded for testing, needs to be changed
-      loggedIn: true, //should be false and change to true when user is logged in; false removes history view, and button reads Log In
+      username: null,
+      loggedIn: false,
       countdown: 3,
       time: null,
       workoutLengthInMins: 15
-
     };
+
     this.goToWorkout = this.goToWorkout.bind(this);
     this.goToSummary = this.goToSummary.bind(this);
     this.goToDashboard = this.goToDashboard.bind(this);
@@ -23,6 +23,7 @@ class App extends React.Component {
     this.getWorkoutHistory = this.getWorkoutHistory.bind(this);
     this.sendWorkoutDataToServer = this.sendWorkoutDataToServer.bind(this);
     this.logOut = this.logOut.bind(this);
+    this.login = this.login.bind(this);
   }
 
   componentDidMount() {
@@ -34,7 +35,10 @@ class App extends React.Component {
   goToDashboard() {
     this.getWorkoutHistory();
     this.setState({currentState: 'Dashboard'});
-  };
+    if (this.state.interval) {
+      clearInterval(this.state.interval);
+    }
+  }
 
   getWorkoutHistory() {
     var settings = {
@@ -43,7 +47,6 @@ class App extends React.Component {
       dataType: 'json',
       data: {
         username: this.state.username,
-
       },
       complete: (data) => {
         console.log('workout history data', data);
@@ -56,18 +59,51 @@ class App extends React.Component {
       }
     }
     $.ajax(settings);
-  };
+  }
 
   goToLogin() {
     this.setState({currentState: 'Login'})
-  };
+  }
+
+  login(event){
+    event.preventDefault();
+    const data = new FormData(event.target);
+    var username = data.get('username');
+    var password = data.get('password');
+
+
+    $.ajax({
+      type: "POST",
+      url: '/login',
+      data: JSON.stringify({
+        username: username,
+        password: password
+      }),
+      contentType: 'application/json',
+      dataType: 'json',
+      complete: data => {
+        console.log('succesfully posted data!', data);
+        if (data.responseText === "logged in") {
+          this.setState({username: username});
+          this.setState({loggedIn: true});
+          this.goToDashboard();
+        } else {
+          this.goToLogin();
+        }
+      },
+      error: function (err) {
+        console.log('err', err);
+      }
+    })
+  }
 
   goToSignUp() {
     this.setState({currentState: 'SignUp'})
-  };
+  }
 
   logOut() {
     this.setState({loggedIn: false});
+    this.setState({username: null});
     this.goToDashboard();
   }
 
@@ -82,7 +118,7 @@ class App extends React.Component {
     this.setState({currentState: 'Workout'});
     //and start the workout timer
     this.startTimer();
-  };
+  }
 
   startCountdown() {
     //reset countdown to 3
@@ -121,7 +157,7 @@ class App extends React.Component {
       }
     }
     $.ajax(settings);
-  };
+  }
 
   startTimer() {
     console.log('start timer');
@@ -150,7 +186,6 @@ class App extends React.Component {
       this.setState({currentExercise: next});
       this.triggerActiveTitleChange();
     }
-
     //if timer reaches 0
     if (this.state.time === 0) {
       //go to summary
@@ -198,57 +233,83 @@ class App extends React.Component {
     return mm + ':' + ss;
   }
 
-
   render() {
-
-    if(this.state.currentState === 'Dashboard') {
-      return (
-        <div className = "App">
-          <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
-          <Dashboard goToCountdown={this.goToCountdown} workoutHistory={this.state.workoutHistory} loggedIn={this.state.loggedIn} />
-        </div>
-      )
-    } else if (this.state.currentState === 'Login') {
-      return (
-        <div className = "App">
-          <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
-          <Login />
-        </div>
-      )
-    } else if (this.state.currentState === 'SignUp') {
-      return (
-        <div className = "App">
-          <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
-          <SignUp />
-        </div>
-      )
-    } else if (this.state.currentState === 'Countdown') {
-      return (
-        <div className = "App">
-          <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
-          <Countdown countdown={this.state.countdown} />
-        </div>
-      )
-    } else if (this.state.currentState === 'Workout') {
-      return (
-        <div className = "App">
-          <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
-          <Workout exercise={this.state.currentWorkout[this.state.currentExercise]} timer={this.formatTime(this.state.time)} countdown={this.state.countdown} goToSummary={this.goToSummary} goToDashboard={this.goToDashboard} ref="workoutPage" />
-
-        </div>
-      )
-    } else if (this.state.currentState === 'Summary') {
-      return (
-        <div className = "App">
-            <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
-            <Summary goToDashboard={this.goToDashboard} currentWorkout={this.state.currentWorkout} workoutDate={this.state.workoutDate} workoutLengthInMins={this.state.workoutLengthInMins} loggedIn={this.state.loggedIn} />
-        </div>
-      )
-    } else {
-      return (
-        <p>Error... sad face...</p>
-      )
+    var toBeRendered = () => {
+      if (this.state.currentState === 'Dashboard') {
+        return (<Dashboard goToCountdown={this.goToCountdown} workoutHistory={this.state.workoutHistory} loggedIn={this.state.loggedIn} />);
+      }
+      if (this.state.currentState === 'Login') {
+          return (<Login login={this.login}/>);
+      }
+      if (this.state.currentState === 'SignUp') {
+          return (<SignUp />);
+      }
+      if (this.state.currentState === 'Countdown') {
+          return (<Countdown countdown={this.state.countdown} />);
+      }
+      if (this.state.currentState === 'Workout') {
+          return (<Workout exercise={this.state.currentWorkout[this.state.currentExercise]} timer={this.formatTime(this.state.time)} countdown={this.state.countdown} goToSummary={this.goToSummary} goToDashboard={this.goToDashboard} ref="workoutPage" />);
+      }
+      if (this.state.currentState === 'Summary') {
+          return (<Summary goToDashboard={this.goToDashboard} currentWorkout={this.state.currentWorkout} workoutDate={this.state.workoutDate} workoutLengthInMins={this.state.workoutLengthInMins} loggedIn={this.state.loggedIn} />);
+      }
     }
+
+    return (
+      <div className = "App">
+        <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
+        {toBeRendered()}
+      </div>
+    )
+    // if(this.state.currentState === 'Dashboard') {
+    //   var toBeRendered = (<Dashboard goToCountdown={this.goToCountdown} workoutHistory={this.state.workoutHistory} loggedIn={this.state.loggedIn} />)
+    //   return (
+    //     <div className = "App">
+    //       <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
+    //       {toBeRendered}
+    //     </div>
+    //   )
+    // } else if (this.state.currentState === 'Login') {
+    //   return (
+    //     <div className = "App">
+    //       <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
+    //       <Login />
+    //     </div>
+    //   )
+    // } else if (this.state.currentState === 'SignUp') {
+    //   return (
+    //     <div className = "App">
+    //       <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
+    //       <SignUp />
+    //     </div>
+    //   )
+    // } else if (this.state.currentState === 'Countdown') {
+    //   return (
+    //     <div className = "App">
+    //       <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
+    //       <Countdown countdown={this.state.countdown} />
+    //     </div>
+    //   )
+    // } else if (this.state.currentState === 'Workout') {
+    //   return (
+    //     <div className = "App">
+    //       <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
+    //       <Workout exercise={this.state.currentWorkout[this.state.currentExercise]} timer={this.formatTime(this.state.time)} countdown={this.state.countdown} goToSummary={this.goToSummary} goToDashboard={this.goToDashboard} ref="workoutPage" />
+
+    //     </div>
+    //   )
+    // } else if (this.state.currentState === 'Summary') {
+    //   return (
+    //     <div className = "App">
+    //         <Header goToLogin={this.goToLogin} goToSignUp={this.goToSignUp} loggedIn={this.state.loggedIn} logOut={this.logOut} />
+    //         <Summary goToDashboard={this.goToDashboard} currentWorkout={this.state.currentWorkout} workoutDate={this.state.workoutDate} workoutLengthInMins={this.state.workoutLengthInMins} loggedIn={this.state.loggedIn} />
+    //     </div>
+    //   )
+    // } else {
+    //   return (
+    //     <p>Error... sad face...</p>
+    //   )
+    // }
   } //render
 } //class
 

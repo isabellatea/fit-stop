@@ -6,6 +6,7 @@ var Exercise = (props) => (
         {props.exercise.description}
     </div>
   </div>
+
 )
 
 

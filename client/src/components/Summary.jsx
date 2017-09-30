@@ -4,6 +4,7 @@ var Summary = (props) => (
     <span className="summaryCongrats congratulations">All Done! Congratulations! 🎉</span> <br />
     {!props.loggedIn && (<span className="alert">⚠️  You are currently not logged in. Workout Summary data will not be saved.</span>)}
     <div className="summaryStats">
+
       <h3 className="summaryTitle"> Date: </h3> {props.workoutDate}
       <h3 className="summaryTitle"> Length of Workout: </h3> {props.workoutLengthInMins} minutes
 

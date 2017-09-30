@@ -5,6 +5,8 @@ var Exercise = require('./db').exerciseModel;
 var User = require('./db').userModel;
 var path = require('path');
 
+var session = require('express-session');
+
 //import database info
 
 //handle all the data gathering methods
@@ -17,7 +19,24 @@ app.use('/public', express.static('client/public'));
 app.use('/react', express.static('node_modules/react/dist'));
 app.use('/react-dom', express.static('node_modules/react-dom/dist'));
 app.use('/jquery', express.static('node_modules/jquery/dist'));
+
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+  secret: 'key',
+  resave: true,
+  saveUninitialized: true
+}));
+
+var checkUser = function(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    req.session.error = 'Access denied!';
+    res.sendFile('login.html', { root: 'client/public'});
+  }
+};
 
 console.log('server is running');
 
@@ -132,5 +151,22 @@ function addWorkout(req,res){
 // need to add user verification
 
 app.post('/addWorkout', addWorkout);
+
+app.post('/login', function(req, res) {
+    // query the database for a username
+    // get the password
+    console.log('username:',req.body.username);
+    console.log('password:',req.body.password);
+    var currentUser = req.body.username;
+    if (req.body.username === 'harshsikka') { //check if user & pw is in database
+      req.session.regenerate(function() {
+        req.session.user = req.body.username;
+        res.status(200).send('logged in');
+      });
+    } else {
+      res.status(400).send('not logged in');
+    }
+});
+
 
 

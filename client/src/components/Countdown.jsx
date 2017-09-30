@@ -4,8 +4,8 @@ var Countdown = (props) => (
     <div className="countdownCircle">
       <span className="countdownNumber">{props.countdown}</span>
     </div>
-
   </div>
 );
+
 
 window.Countdown = Countdown;
