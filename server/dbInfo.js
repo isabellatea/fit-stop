@@ -1,3 +1,3 @@
-var dbUri = 'fsadmin:fitstop@ds141524.mlab.com:41524/fit-stop';
+var dbUri = 'insert your Uri here';
 
 module.exports.dbUri = dbUri;

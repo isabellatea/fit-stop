@@ -1,5 +1,3 @@
-/*@import url("http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css");*/
-
 body {
   margin: 0;
   padding: 0;
@@ -10,6 +8,12 @@ body {
 .App {
   width: 60%;
   margin: auto;
+}
+
+.username {
+  display: inline-block;
+  float: right;
+  margin-right: 10px;
 }
 
 .header {
@@ -282,6 +286,46 @@ body {
   font-weight: bold;
   font-size: 30px;
   color: #000;
+}
+
+label{
+  display: inline-block;
+  float: left;
+  clear: left;
+  width: 150px;
+  text-align: right;
+  padding: 5px;
+  margin: 10px 5px;
+}
+
+input[id=username], input[id=password] {
+  display: inline-block;
+  float: left;
+  padding: 5px;
+  margin: 10px 5px;
+  width: 65%;
+}
+
+input[id=username]:focus, input[id=password]:focus {
+    border: 2px solid #3b8fb5;
+}
+
+.hideButton {
+  display: none;
+}
+
+input[type=submit] {
+  display: block;
+  background-color: #000000;
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 10px 50px;
+  vertical-align: middle;
+  margin-bottom: 20px;
 }
 
 

@@ -1,7 +1,11 @@
 var mongoose = require('mongoose');
 var dbUri = require('./dbInfo').dbUri;
-
 var Schema = mongoose.Schema;
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Connection to MongoDB instance
+* * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 mongoose.connect('mongodb://' + dbUri);
 
@@ -12,6 +16,11 @@ mongoose.connection.once('open', function() {
 mongoose.connection.on('error', function(error) {
   console.log('database connection error: ' + error);
 });
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Definition of Schemas
+* * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 var exerciseSchema = new Schema({
   name: String,
@@ -30,9 +39,15 @@ var userSchema = new Schema({
   workoutHistory: []
 });
 
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+   Model Creation based on Schemas
+* * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 var Exercise = mongoose.model('Exercise', exerciseSchema);
 var User = mongoose.model('User', userSchema);
 
 module.exports.exerciseModel = Exercise;
 module.exports.userModel = User;
 module.exports.mongoose = mongoose;
+

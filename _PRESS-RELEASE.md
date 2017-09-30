@@ -16,29 +16,29 @@ Oh, and I also like to write press-releases in what I call "Oprah-speak" for mai
 Once the project moves into development, the press release can be used as a touchstone; a guiding light. The product team can ask themselves, "Are we building what is in the press release?" If they find they're spending time building things that aren't in the press release (overbuilding), they need to ask themselves why. This keeps product development focused on achieving the customer benefits and not building extraneous stuff that takes longer to build, takes resources to maintain, and doesn't provide real customer benefit (at least not enough to warrant inclusion in the press release).
  -->
 
-## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+## What is Fit Stop? ##
+  > Fit Stop is a fitness app.
 
-## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+## Who can use Fit Stop? ##
+  > This app is designed for anyone who needs a quick workout break in their work day.
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  > Fit Stop guides users through a timed workout, giving the user a sequence of exercises from warm up to cool down. Users have the option to sign up and login to save their workout history.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > Millions of people that have desk jobs do not get enough daily exercise.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > This app gives people a quick and easy way to exercise without having to leave their cubicle.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > "Good things come from those who sweat". -AP
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Simply open the app, and click on the Start Workout button to begin!
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > "This app got me swole" - Justin
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Try out the app here! http://fit-stop.herokuapp.com/
