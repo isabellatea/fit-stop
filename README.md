@@ -35,11 +35,15 @@
 ### Roadmap
 
 > npm start (initial compilation and server start)
+
 > npm run watch (recompile on change)
 
-  client/public/: css, images, and index.html
-  client/src/: components, sample data, and index.jsx
-  server: server files
+> client/public/: css, images, and index.html
+
+> client/src/: components, sample data, and index.jsx
+
+> server: server files
+
 
 ## Contributing
 
