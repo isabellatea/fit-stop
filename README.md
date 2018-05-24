@@ -1,32 +1,23 @@
 # Fit Stop
+A fitness app that will guide users through a timed workout, giving the user a sequence of exercises from warm up to cool down. Users have the option to sign up and login to save their workout history.
 
-> A fitness app that will guide users through a timed workout, giving the user a sequence of exercises from warm up to cool down. Users have the option to sign up and login to save their workout history.
-
-## Team Anonymous Pizza
-
-  - __Product Owner__: Harsh
-  - __Scrum Master__: Candice
-  - __Development Team Members__: Steve, Bella
 
 ## Table of Contents
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
+1. [Link and Screenshot](#link-and-screenshot)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
+    1. [Roadmap](#roadmap)
 1. [Team](#team)
 1. [Contributing](#contributing)
 
-## Usage
+## Link and Screenshot
+Link: https://fit-stop-app.herokuapp.com/
 
-> http://fit-stop.herokuapp.com/
-
-## Requirements
-
-> Mongo, Express, React, Node.js
+![FitStopHomepage](http://i68.tinypic.com/2cqmgbo.jpg)
 
 ## Development
+
 
 ### Installing Dependencies
 
@@ -45,6 +36,15 @@
 > server: server files
 
 
+## Team
+
+  - Harsh Sikka
+  - Candice Lai
+  - Isabella Tea
+  - Steve Rodriguez
+
+  
 ## Contributing
 
 > Please do. Submit a pull request :)
+
