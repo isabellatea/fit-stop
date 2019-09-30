@@ -14,7 +14,7 @@ A fitness app that will guide users through a timed workout, giving the user a s
 ## Link and Screenshot
 Link: https://fit-stop-app.herokuapp.com/
 
-![FitStopHomepage](http://i68.tinypic.com/2cqmgbo.jpg)
+![FitStopHomepage](https://i.ibb.co/vkHw6gh/pz.jpg)
 
 ## Development
 
